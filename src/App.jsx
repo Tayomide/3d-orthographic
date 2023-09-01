@@ -1,9 +1,9 @@
 const App = () => {
   return (
-    <div className="App">
+    <div>
       Heyyy!
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
