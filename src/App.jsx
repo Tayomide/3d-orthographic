@@ -14,6 +14,7 @@ const App = () => {
   const [geometry2, setGeometry2] = useState(false)
   const [stl, setStl] = useState(null);
   const [scaleFactor, setScaleFactor] = useState(1)
+  const [longestDimension, setLongestDimension] = useState(2)
   const [hover, setHover] = useState(false)
   const controlsRef = useRef()
   const stlRef = useRef()
@@ -37,9 +38,9 @@ const App = () => {
       const size = new THREE.Vector3()
       boundingBox.getSize(size)
       console.log(size, "size")
-      const longestDimension = Math.max(size.x, size.y, size.z)
+      setLongestDimension(Math.max(size.x, size.y, size.z))
       console.log("Not the problem dumbass")
-      setScaleFactor(2.5 / longestDimension)
+      
 
     }
   }, [stl, geometry, geometry2])
@@ -104,6 +105,7 @@ const App = () => {
             rotation={rotation}
             ref={stlRef}
             scale={[scaleFactor, scaleFactor, scaleFactor]}
+            onUpdate={(e) => {setScaleFactor(2.5 / longestDimension)}}
             onPointerEnter={() => setHover(true)}
             onPointerLeave={() => setHover(false)}
           >
