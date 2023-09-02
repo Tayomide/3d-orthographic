@@ -5,6 +5,7 @@ import { Navbar } from './components/Navbar';
 import { useEffect, useRef, useState } from 'react';
 // import { useControls } from 'leva';
 import * as THREE from "three"
+import { SocialLinks } from './components/SocialLinks';
 
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
   const [geometry2, setGeometry2] = useState(false)
   const [stl, setStl] = useState(null);
   const [scaleFactor, setScaleFactor] = useState(1)
+  const [hover, setHover] = useState(false)
   const controlsRef = useRef()
   const stlRef = useRef()
 
@@ -73,6 +75,7 @@ const App = () => {
       const dashSegment = new THREE.LineSegments(edgesGeometry, dashMaterial)
       dashSegment.scale.set(scaleFactor, scaleFactor, scaleFactor)
       dashSegment.computeLineDistances()
+      dashSegment.rotation.set(...rotation)
       stlRef.current.children.push(dashSegment)
       const lineMaterial = new THREE.LineBasicMaterial()
       lineMaterial.color = new THREE.Color("#333")
@@ -80,6 +83,7 @@ const App = () => {
       const lineSegment = new THREE.LineSegments(edgesGeometry, lineMaterial)
       lineSegment.scale.set(scaleFactor, scaleFactor, scaleFactor)
       lineSegment.computeLineDistances()
+      lineSegment.rotation.set(...rotation)
       stlRef.current.children.push(lineSegment)
     }
   }, [scaleFactor, stl])
@@ -89,16 +93,29 @@ const App = () => {
   return (
     <Container className='App'>
       <Navbar setRotation={setRotation} setStl={setStl}/>
-      <Canvas>
+      <SocialLinks />
+      <Canvas className={hover ? 'hover' : ''}>
         {/* Front View */}
         <OrthographicCamera makeDefault={true} position={[0, 0, 2]} zoom={100}/>
         <OrbitControls ref={controlsRef}/>
         {
           stl ? 
-          <mesh rotation={rotation} ref={stlRef} scale={[scaleFactor, scaleFactor, scaleFactor]}>
+          <mesh 
+            rotation={rotation}
+            ref={stlRef}
+            scale={[scaleFactor, scaleFactor, scaleFactor]}
+            onPointerEnter={() => setHover(true)}
+            onPointerLeave={() => setHover(false)}
+          >
           </mesh> 
         :
-          <group rotation={rotation} ref={stlRef} scale={[scaleFactor, scaleFactor, scaleFactor]}>
+          <group 
+            rotation={rotation}
+            ref={stlRef} 
+            scale={[scaleFactor, scaleFactor, scaleFactor]}
+            onPointerEnter={() => setHover(true)}
+            onPointerLeave={() => setHover(false)}
+          >
             <mesh>
               <boxGeometry args={[2,1,1]}
               onUpdate={(geo) => setGeometry(geo)}/>
@@ -123,11 +140,17 @@ const App = () => {
               {
                 geometry2 && 
                 <>
-                  <lineSegments onUpdate={(line) => line.computeLineDistances()}>
+                  <lineSegments
+                    onUpdate={(line) => line.computeLineDistances()}
+                    onPointerEnter={() => setHover(true)}
+                  >
                     <edgesGeometry args={[geometry2]}/>
                     <lineDashedMaterial color="#8c8c8c" dashSize={0.1} gapSize={0.2} depthTest={false}/>
                   </lineSegments>
-                  <lineSegments onUpdate={(line) => line.computeLineDistances()}>
+                  <lineSegments 
+                    onUpdate={(line) => line.computeLineDistances()}
+                    onPointerEnter={() => setHover(true)}
+                  >
                     <edgesGeometry args={[geometry2]}/>
                     <lineBasicMaterial color="#333" />
                   </lineSegments>
@@ -148,4 +171,7 @@ const Container = styled.div`
   height: 100vh;
   overflow: hidden;
   background-color: #e2e2e2;
+  .hover{
+    cursor: pointer;
+  }
 `
