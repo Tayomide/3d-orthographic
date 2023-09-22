@@ -16,7 +16,6 @@ const App = () => {
   const [stl, setStl] = useState(null);
   const [scaleFactor, setScaleFactor] = useState(1)
   const [longestDimension, setLongestDimension] = useState(2)
-  const [hover, setHover] = useState(false)
   const controlsRef = useRef()
   const stlRef = useRef()
 
@@ -41,8 +40,6 @@ const App = () => {
       console.log(size, "size")
       setLongestDimension(Math.max(size.x, size.y, size.z))
       console.log("Not the problem dumbass")
-      
-
     }
   }, [stl, geometry, geometry2])
 
@@ -60,7 +57,7 @@ const App = () => {
     <Container className='App'>
       <Navbar setRotation={setRotation} setStl={setStl}/>
       <SocialLinks />
-      <Canvas className={hover ? 'hover' : ''}>
+      <Canvas>
         {/* Front View */}
         <OrthographicCamera makeDefault={true} position={[0, 0, 2]} zoom={100}/>
         <OrbitControls ref={controlsRef}/>
@@ -90,8 +87,6 @@ const App = () => {
             rotation={rotation}
             ref={stlRef} 
             scale={[scaleFactor, scaleFactor, scaleFactor]}
-            onPointerEnter={() => setHover(true)}
-            onPointerLeave={() => setHover(false)}
           >
             <mesh>
               <boxGeometry args={[2,1,1]}
@@ -119,14 +114,12 @@ const App = () => {
                 <>
                   <lineSegments
                     onUpdate={(line) => line.computeLineDistances()}
-                    onPointerEnter={() => setHover(true)}
                   >
                     <edgesGeometry args={[geometry2]}/>
                     <lineDashedMaterial color="#8c8c8c" dashSize={0.1} gapSize={0.2} depthTest={false}/>
                   </lineSegments>
                   <lineSegments 
                     onUpdate={(line) => line.computeLineDistances()}
-                    onPointerEnter={() => setHover(true)}
                   >
                     <edgesGeometry args={[geometry2]}/>
                     <lineBasicMaterial color="#333" />
@@ -148,7 +141,7 @@ const Container = styled.div`
   height: 100vh;
   overflow: hidden;
   background-color: #e2e2e2;
-  .hover{
+  canvas{
     cursor: pointer;
   }
 `
