@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 // import { useControls } from 'leva';
 import * as THREE from "three"
 import { SocialLinks } from './components/SocialLinks';
+import { BufferGeometry } from './components/BufferGeometry';
 
 
 const App = () => {
@@ -109,6 +110,7 @@ const App = () => {
             onPointerEnter={() => setHover(true)}
             onPointerLeave={() => setHover(false)}
           >
+            <BufferGeometry stl={stl} />
           </mesh> 
         :
           <group 
