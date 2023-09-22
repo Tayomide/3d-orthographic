@@ -59,7 +59,7 @@ const App = () => {
       <SocialLinks />
       <Canvas>
         {/* Front View */}
-        <OrthographicCamera makeDefault={true} position={[0, 0, 2]} zoom={100}/>
+        <OrthographicCamera makeDefault={true} position={[0, 0, 3]} zoom={100}/>
         <OrbitControls ref={controlsRef}/>
         {
           stl ? 
