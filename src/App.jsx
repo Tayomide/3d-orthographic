@@ -53,44 +53,8 @@ const App = () => {
   }, [rotation, stl])
 
   useEffect(() => {
-    if(stlRef?.current?.type === "Mesh" ){
-      stlRef.current.children[0].rotation.set(...rotation)
-      stlRef.current.children[1].rotation.set(...rotation)
-    }
-  }, [rotation])
-
-  useEffect(() => {
-    console.log(stlRef.current)
-    if(stlRef?.current?.type === "Mesh" ){
-      const tempGeometry = stl.clone()
-      stlRef.current.geometry = null
-      stlRef.current.geometry = tempGeometry
-      const material = new THREE.MeshBasicMaterial({ color: "white"})
-      stlRef.current.material = material
-      stlRef.current.children = []
-      const edgesGeometry = new THREE.EdgesGeometry(stl)
-      const dashMaterial = new THREE.LineDashedMaterial()
-      dashMaterial.dashSize = 0.05/scaleFactor
-      dashMaterial.gapSize = 0.1/scaleFactor
-      dashMaterial.depthTest = false
-      dashMaterial.color = new THREE.Color("#8c8c8c")
-      const dashSegment = new THREE.LineSegments(edgesGeometry, dashMaterial)
-      dashSegment.scale.set(scaleFactor, scaleFactor, scaleFactor)
-      dashSegment.computeLineDistances()
-      dashSegment.rotation.set(...rotation)
-      stlRef.current.children.push(dashSegment)
-      const lineMaterial = new THREE.LineBasicMaterial()
-      lineMaterial.color = new THREE.Color("#333")
-      lineMaterial.depthTest = true
-      const lineSegment = new THREE.LineSegments(edgesGeometry, lineMaterial)
-      lineSegment.scale.set(scaleFactor, scaleFactor, scaleFactor)
-      lineSegment.computeLineDistances()
-      lineSegment.rotation.set(...rotation)
-      stlRef.current.children.push(lineSegment)
-    }
-  }, [scaleFactor, stl])
-
-  // const { gap } = useControls({ scaleFactor, gap:0.1/scaleFactor})
+    if(longestDimension)setScaleFactor(2.5 / longestDimension)
+  }, [longestDimension])
 
   return (
     <Container className='App'>
@@ -111,6 +75,15 @@ const App = () => {
             onPointerLeave={() => setHover(false)}
           >
             <BufferGeometry stl={stl} />
+            <meshBasicMaterial color="#ffffff" />
+            <lineSegments onUpdate={e => e.computeLineDistances()}>
+              <edgesGeometry args={[stl]} />
+              <lineDashedMaterial dashSize={0.05/scaleFactor} gapSize={0.1/scaleFactor} depthTest={false} color="#8c8c8c"/>
+            </lineSegments>
+            <lineSegments onUpdate={e => e.computeLineDistances()}>
+              <edgesGeometry args={[stl]} />
+              <lineBasicMaterial color="#333333" depthTest={true} />
+            </lineSegments>
           </mesh> 
         :
           <group 
