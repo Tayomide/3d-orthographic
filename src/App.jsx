@@ -67,9 +67,11 @@ const App = () => {
             rotation={rotation}
             ref={stlRef}
             scale={[scaleFactor, scaleFactor, scaleFactor]}
-            onUpdate={(e) => {setScaleFactor(2.5 / longestDimension)}}
-            onPointerEnter={() => setHover(true)}
-            onPointerLeave={() => setHover(false)}
+            onUpdate={(e) => {
+              for(const segment of e.children){
+                segment.computeLineDistances()
+              }
+            }}
           >
             <BufferGeometry stl={stl} />
             <meshBasicMaterial color="#ffffff" />
