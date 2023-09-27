@@ -13,6 +13,10 @@ export const SocialLinks = () => {
       <a className="linkedin" target='_blank' href="https://www.linkedin.com/in/tomiwa-ibrahim-67b180196/">
         <img src='/linkedin.svg' alt="Source Code"/>
       </a>
+      <p className='divider'></p>
+      <a className="linkedin" target='_blank' href="https://www.linkedin.com/in/saleem-dunmoye-ba1999285/">
+        <img src='/linkedin.svg' alt="Source Code"/>
+      </a>
     </Container>
   )
 }
@@ -26,10 +30,16 @@ const Container = styled.div`
   position: fixed;
   padding: 0 0.3em;
   bottom: 0.3em;
-  right: 0.3em;
+  right: calc(50% - 113px);
   z-index: 2;
   gap: 0.2em;
   border-radius: 2em;
+  .divider{
+    width: 1px;
+    height: 100%;
+    background-color: #e2e2e2;
+    display: block;
+  }
   a{
     font-size: 1em;
     border-radius: 50%;
