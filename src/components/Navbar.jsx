@@ -99,6 +99,9 @@ const Container = styled.div`
     border-radius: 0.5em;
     padding: 0.2em;
     cursor: pointer;
+    ~ select{
+      margin-left: 0.5em;
+    }
   }
   button{
     margin-left: 0.5em;
