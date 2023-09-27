@@ -55,6 +55,7 @@ export const Navbar = ({ setRotation, setStl }) => {
   return (
     <Container>
       <select onChange={handleChange}>
+        <option hidden>Select a View</option>
         <option value="front">Front View</option>
         <option value="top">Top View</option>
         <option value="rside">Right Side View</option>
