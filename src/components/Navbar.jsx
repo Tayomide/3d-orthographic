@@ -55,7 +55,19 @@ export const Navbar = ({ setRotation, setStl }) => {
         <option value="bottom">Bottom View</option>
         <option value="lside">Left Side View</option>
       </select>
-      <button onClick={() => setRotation([0, 0, 0])}>Reset View</button>
+      <select onChange={handleModelChange}>
+        <option hidden>Select a Model</option>
+        <option value="3d%20model%201.STL">Model 1</option>
+        <option value="3d%20model%202.STL">Model 2</option>
+        <option value="3d%20model%203.STL">Model 3</option>
+        <option value="3d%20model%205.STL">Model 5</option>
+        <option value="3d%20model%206.STL">Model 6</option>
+        <option value="lab%203%20excersise%201.STL">Model 7</option>
+        <option value="lab%203%20exercise%202.STL">Model 8</option>
+        <option value="Lab%203%20exercise%203.STL">Model 9</option>
+
+      </select>
+      <button onClick={() => setRotation([Math.PI/8, Math.PI/8, 0])}>Reset View</button>
       <label htmlFor='upload'>
         <input type='file' name="upload" id='upload' accept=".stl" onChange={handleFileChange}/>
         <span>Upload model</span>
