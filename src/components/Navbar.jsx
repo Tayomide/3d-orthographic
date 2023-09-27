@@ -31,6 +31,13 @@ export const Navbar = ({ setRotation, setStl }) => {
     }
   }
 
+  const handleModelChange = (e) => {
+    const loader = new STLLoader();
+    loader.load(e.target.value, (geometry) => {
+      setStl(geometry);
+    });
+  }
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
