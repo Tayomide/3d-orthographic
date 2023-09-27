@@ -10,7 +10,7 @@ import { BufferGeometry } from './components/BufferGeometry';
 
 
 const App = () => {
-  const [rotation, setRotation] = useState([0, 0, 0])
+  const [rotation, setRotation] = useState([Math.PI/8, Math.PI/8, 0])
   const [geometry, setGeometry] = useState(false)
   const [geometry2, setGeometry2] = useState(false)
   const [stl, setStl] = useState(null);
